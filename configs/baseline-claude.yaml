@@ -1,0 +1,38 @@
+# citecheck-baseline config: single-config Claude baseline.
+#
+# Run a *zero-shot, no-web-search* Claude baseline on the test split.
+# Override individual fields from the CLI:
+#
+#   citecheck-baseline --config configs/baseline-claude.yaml \
+#       --save-dir results/baselines/claude_zero_nows
+#   citecheck-baseline --config configs/baseline-claude.yaml \
+#       --prompting fewshot --web-search
+
+# Output directory (must be set here or via --save-dir).
+save_dir: results/baselines/claude_zero_nows
+
+# Splits ------------------------------------------------------------
+seed: 42
+# Share the dev/test split with the main detector by pointing
+# splits_path at a previously-generated splits.json:
+# splits_path: results/claude/splits.json
+
+# Run configuration -------------------------------------------------
+provider: anthropic
+model: claude-sonnet-4-6
+prompting: zeroshot          # 'zeroshot' or 'fewshot'
+web_search: false
+
+# Sampling ----------------------------------------------------------
+temperature: 0.0
+max_output_tokens: 1024
+web_search_max_uses: 5       # Anthropic only; OpenAI / Gemini ignore
+max_retries: 3
+
+# OpenAI gpt-5.x reasoning effort (ignored for non-OpenAI providers).
+# reasoning_effort: medium
+
+# Run loop ----------------------------------------------------------
+# max_citations: 8           # cap test-set size for smoke tests
+save_every: 25
+show_progress: true

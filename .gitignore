@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+develop-eggs/
+.eggs/
+sdist/
+wheels/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Type checkers
+.mypy_cache/
+.ruff_cache/
+
+# IDE / editor
+.idea/
+.vscode/
+.history/
+.DS_Store
+
+# Run outputs (the package writes results/ by default; override with --save_dir)
+results/
+
+# Internal release checklist (not for public repo)
+RELEASE.md

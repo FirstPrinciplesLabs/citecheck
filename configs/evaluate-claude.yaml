@@ -1,0 +1,49 @@
+# citecheck-evaluate config: paper-default Claude configuration.
+#
+# This file mirrors the SLURM job that produced the paper's headline
+# numbers.
+#
+# Override individual fields from the CLI:
+#
+#   citecheck-evaluate --config configs/evaluate-claude.yaml --save-dir results/claude
+#   citecheck-evaluate --config configs/evaluate-claude.yaml --save-dir results/claude --provider openai
+
+# Output directory (must be set here or via --save-dir)
+save_dir: results/claude
+
+# Splits ------------------------------------------------------------
+seed: 42
+# Set splits_path to share the same dev/test split with the baselines:
+# splits_path: shared/splits.json
+
+# Default thresholds (paper-default before tuning) ------------------
+default_exact_threshold: 7.25
+default_minor_threshold: 1.25
+
+# LLM provider ------------------------------------------------------
+llm_provider: anthropic
+llm_model: claude-sonnet-4-6
+llm_temperature: 0.0
+
+# Cascade -----------------------------------------------------------
+try_arxiv: true
+try_web_search: true
+accept_best_web_search: true
+web_search_model: gpt-5.4
+api_timeout: 15.0
+inter_api_delay: 0.5
+
+# Reviewer ----------------------------------------------------------
+review_enabled: true
+review_model: claude-sonnet-4-6
+review_sim_threshold: 50.0
+
+# Citation-parser fallback -----------------------------------------
+llm_parse_enabled: true
+llm_parse_model: claude-sonnet-4-6
+
+# Output verbosity -------------------------------------------------
+verbose: true
+detailed: false
+fewshot: false
+monitor: false

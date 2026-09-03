@@ -1,0 +1,94 @@
+# citecheck-compare config: comparison matrix for the paper's
+# baseline table (LLM-only frontier models, with and without
+# web-search, zero-shot and few-shot).
+#
+# Usage:
+#   citecheck-compare --config configs/baseline-matrix.yaml
+#   citecheck-compare --config configs/baseline-matrix.yaml --max-citations 8
+#   citecheck-compare --config configs/baseline-matrix.yaml --skip-existing
+
+save_dir: results/compare
+seed: 42
+
+# Optional: share the dev/test split with citecheck-evaluate so the
+# baselines and the main detector see *exactly* the same test set.
+# splits_path: results/claude/splits.json
+
+# Defaults inherited by every entry under `runs:` unless overridden.
+shared:
+  temperature: 0.0
+  max_output_tokens: 1024
+  web_search_max_uses: 5
+  max_retries: 3
+  save_every: 25
+  # max_citations: 8         # uncomment for a quick smoke test
+
+# Comparison matrix.  Each row becomes a sub-directory under save_dir.
+runs:
+  # ── OpenAI ────────────────────────────────────────────────────────
+  - name: gpt54_zero_nows
+    provider: openai
+    model: gpt-5.4
+    prompting: zeroshot
+    web_search: false
+    reasoning_effort: medium
+
+  - name: gpt54_zero_ws
+    provider: openai
+    model: gpt-5.4
+    prompting: zeroshot
+    web_search: true
+    reasoning_effort: medium
+
+  - name: gpt54_few_ws
+    provider: openai
+    model: gpt-5.4
+    prompting: fewshot
+    web_search: true
+    reasoning_effort: medium
+
+  # ── Anthropic ────────────────────────────────────────────────────
+  - name: claude_zero_nows
+    provider: anthropic
+    model: claude-sonnet-4-6
+    prompting: zeroshot
+    web_search: false
+
+  - name: claude_zero_ws
+    provider: anthropic
+    model: claude-sonnet-4-6
+    prompting: zeroshot
+    web_search: true
+
+  - name: claude_few_ws
+    provider: anthropic
+    model: claude-sonnet-4-6
+    prompting: fewshot
+    web_search: true
+
+  # ── Google ───────────────────────────────────────────────────────
+  - name: gemini_zero_nows
+    provider: google
+    model: gemini-2.5-flash
+    prompting: zeroshot
+    web_search: false
+
+  - name: gemini_zero_ws
+    provider: google
+    model: gemini-2.5-flash
+    prompting: zeroshot
+    web_search: true
+
+  - name: gemini_few_ws
+    provider: google
+    model: gemini-2.5-flash
+    prompting: fewshot
+    web_search: true
+
+# Optional: include a row for the main detector by reading the
+# `test_evaluation.json` produced by `citecheck-evaluate` and using
+# its *tuned* test-set metrics.
+include_main:
+  enabled: false
+  # results_path: results/claude
+  # tag: CiteCheck (Claude)
